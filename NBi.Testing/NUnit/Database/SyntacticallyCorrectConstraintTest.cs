@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.NUnit.Database
 {
     [TestFixture]
-    public class QueryParserConstraintTest
+    public class SyntacticallyCorrectConstraintTest
     {
 
         protected string _connectionString;
@@ -17,7 +17,15 @@ namespace NBi.Testing.NUnit.Database
         [SetUp]
         public void SetUp()
         {
-            _connectionString = "Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]
@@ -28,12 +36,12 @@ namespace NBi.Testing.NUnit.Database
         #endregion
 
         [Test]
-        public void QueryParserRealImplementation_QueryParserConstraint_Success()
+        public void QueryParserRealImplementation_SyntacticallyCorrectConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
 
             //Method under test
-            Assert.That(sql, new QueryParserConstraint(_connectionString));
+            Assert.That(sql, new SyntacticallyCorrectConstraint(_connectionString));
 
             //Test conclusion            
             Assert.Pass();
@@ -56,17 +64,16 @@ namespace NBi.Testing.NUnit.Database
             var mock = new Mock<IQueryParser>();
 
             mock.Setup(engine => engine.ValidateFormat(sql))
-                .Returns(Result.Success())
-                .AtMostOnce();
+                .Returns(Result.Success());
             IQueryParser qp = mock.Object;
 
-            var qpc = new QueryParserConstraint(qp);
+            var qpc = new SyntacticallyCorrectConstraint(qp);
 
             //Method under test
             Assert.That(sql, qpc);
 
             //Test conclusion            
-            mock.Verify(engine => engine.ValidateFormat(sql));
+            mock.Verify(engine => engine.ValidateFormat(sql), Times.AtMostOnce());
         }
 
     }

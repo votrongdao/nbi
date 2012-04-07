@@ -67,8 +67,8 @@
     <Compile Include="Core\Integration\PackageManagerTest.cs" />
     <Compile Include="DiskOnFile.cs" />
     <Compile Include="NUnit\Database\DataSetConstraintTest.cs" />
-    <Compile Include="NUnit\Database\QueryPerformanceConstraintTest.cs" />
-    <Compile Include="NUnit\Database\QueryParserConstraintTest.cs" />
+    <Compile Include="NUnit\Database\FasterThanConstraintTest.cs" />
+    <Compile Include="NUnit\Database\SyntacticallyCorrectConstraintTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryGenerator\BatchManagerTest.cs" />
     <Compile Include="Core\Analysis\Query\OleDbExecutorTest.cs" />
@@ -83,7 +83,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Core\Analysis\Metadata\MetadataExcelSample.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </None>
+    <None Include="ConnectionString.user.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

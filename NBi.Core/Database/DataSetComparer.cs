@@ -23,6 +23,12 @@ namespace NBi.Core.Database
             _expectedSql = expectedSql;
         }
 
+        /// <summary>
+        /// Fill the dataset with data
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="sql"></param>
+        /// <returns></returns>
         protected DataSet FillDataSet(string connectionString, string sql)
         {
             DataSet dataset = null;
@@ -146,7 +152,6 @@ namespace NBi.Core.Database
 
         protected internal Result ValidateContent(DataSet expectedDs, DataSet actualDs)
         {
-
             DataTable expectedTable = expectedDs.Tables[0];
             DataTable actualTable = actualDs.Tables[0];
 

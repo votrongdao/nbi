@@ -15,7 +15,15 @@ namespace NBi.Testing.Xml
         [SetUp]
         public void SetUp()
         {
-            _connectionString = "Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]
@@ -28,7 +36,7 @@ namespace NBi.Testing.Xml
         [Test]
         public void TestCase_Play_Success()
         {
-            var constraint = new QueryParserConstraint(_connectionString);
+            var constraint = new SyntacticallyCorrectConstraint(_connectionString);
             var testCase = new TestCaseXml() { Sql = "SELECT * FROM Product;" };
 
             testCase.Play(constraint);
@@ -40,7 +48,7 @@ namespace NBi.Testing.Xml
         {
             var t = new TestXml()
             {
-                Constraints = new List<AbstractConstraintXml>() { new QueryParserXml() { ConnectionString = _connectionString } },
+                Constraints = new List<AbstractConstraintXml>() { new SyntacticallyCorrectXml() { ConnectionString = _connectionString } },
                 TestCases = new List<TestCaseXml>() { new TestCaseXml() { Sql = "SELECT * FROM Product;" } }
             };
 

@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace NBi.Testing.NUnit.Database
 {
     [TestFixture]
-    public class QueryPerformanceConstraintTest
+    public class FasterThanConstraintTest
     {
 
         protected string _connectionString;
@@ -17,7 +17,15 @@ namespace NBi.Testing.NUnit.Database
         [SetUp]
         public void SetUp()
         {
-            _connectionString = "Data Source=.;Initial Catalog=NBi.Testing;Integrated Security=True";
+            //If available use the user file
+            if (System.IO.File.Exists("ConnectionString.user.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.user.config");
+            }
+            else if (System.IO.File.Exists("ConnectionString.config"))
+            {
+                _connectionString = System.IO.File.ReadAllText("ConnectionString.config");
+            }
         }
 
         [TearDown]
@@ -28,12 +36,12 @@ namespace NBi.Testing.NUnit.Database
         #endregion
 
         [Test]
-        public void QueryPerformanceRealImplementation_QueryPerformanceConstraint_Success()
+        public void QueryPerformanceRealImplementation_FasterThanConstraint_Success()
         {
             var sql = "SELECT * FROM Product;";
 
             //Method under test
-            Assert.That(sql, new QueryPerformanceConstraint(_connectionString, 5000));
+            Assert.That(sql, new FasterThanConstraint(_connectionString, 5000));
 
             //Test conclusion            
             Assert.Pass();
@@ -56,17 +64,16 @@ namespace NBi.Testing.NUnit.Database
             var mock = new Mock<IQueryPerformance>();
 
             mock.Setup(engine => engine.Validate(sql))
-                .Returns(Result.Success())
-                .AtMostOnce();
+                .Returns(Result.Success());
             IQueryPerformance qp = mock.Object;
 
-            var qpc = new QueryPerformanceConstraint(qp);
+            var qpc = new FasterThanConstraint(qp);
 
             //Method under test
             Assert.That(sql, qpc);
 
             //Test conclusion            
-            mock.Verify(engine => engine.Validate(sql));
+            mock.Verify(engine => engine.Validate(sql), Times.AtMostOnce());
         }
 
     }
