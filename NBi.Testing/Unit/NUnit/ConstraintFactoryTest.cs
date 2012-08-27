@@ -107,5 +107,15 @@ namespace NBi.Testing.Unit.NUnit
             Assert.That(ctr, Is.InstanceOf<NBiNu.Member.OrderedConstraint>());
         }
 
+        [Test]
+        public void Instantiate_ContainsXmlWithNot_IsOfTypeNotConstraint()
+        {
+            var ctrXml = new ContainsXml() {Not=true, Caption="caption"};
+            
+            var ctr = NBiNu.ConstraintFactory.Instantiate(ctrXml, typeof(MembersXml));
+
+            Assert.That(ctr, Is.InstanceOf<global::NUnit.Framework.Constraints.NotConstraint>());
+        }
+
     }
 }

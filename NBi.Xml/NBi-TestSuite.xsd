@@ -60,18 +60,7 @@
 							<xs:element name="system-under-test" minOccurs="1" maxOccurs="unbounded">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="query" minOccurs="0" maxOccurs="unbounded">
-											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="name" type="xs:string" use="optional" />
-														<xs:attribute name="file" type="xs:string" use="optional" />
-														<xs:attribute name="connectionString" type="xs:string" use="optional" />
-														<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
-											</xs:complexType>
-										</xs:element>
+										<xs:element name="query" type ="query-type" minOccurs="0" maxOccurs="unbounded"/>
 										<xs:element name="members" minOccurs="0" maxOccurs="unbounded">
 											<xs:complexType>
 												<xs:simpleContent>
@@ -155,18 +144,7 @@
 															<xs:attribute name="file" type="xs:string" use="optional" />
 														</xs:complexType>
 													</xs:element>
-													<xs:element name="query" minOccurs="0" maxOccurs="1">
-														<xs:complexType>
-															<xs:simpleContent>
-																<xs:extension base="xs:string">
-																	<xs:attribute name="name" type="xs:string" use="optional" />
-																	<xs:attribute name="file" type="xs:string" use="optional" />
-																	<xs:attribute name="connectionString" type="xs:string" use="optional" />
-																	<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
-																</xs:extension>
-															</xs:simpleContent>
-														</xs:complexType>
-													</xs:element>
+													<xs:element name="query" type="query-type" minOccurs="0" maxOccurs="1"/>
 												</xs:sequence>
 												<xs:attribute name="keys" use="optional" >
 													<xs:simpleType>
@@ -223,6 +201,7 @@
 														<xs:attribute name="caption" type="xs:string" use="required" />
 														<xs:attribute name="display-folder" type="xs:string" use="optional" />
 														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+														<xs:attribute name="not" type="xs:boolean" use="optional" />
 													</xs:extension>
 												</xs:simpleContent>
 											</xs:complexType>
@@ -257,7 +236,7 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
-									</xs:sequence>
+									</xs:sequence>							
 								</xs:complexType>
 							</xs:element>
 						</xs:sequence>
@@ -269,4 +248,13 @@
 			<xs:attribute name="name" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="query-type" mixed="true">
+		<xs:sequence>
+			
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional" />
+		<xs:attribute name="query-file" type="xs:string" use="optional" />
+		<xs:attribute name="connectionString" type="xs:string" use="optional" />
+		<xs:attribute name="connectionString-ref" type="xs:string" use="optional" />
+	</xs:complexType>
 </xs:schema>

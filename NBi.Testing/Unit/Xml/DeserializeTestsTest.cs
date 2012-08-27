@@ -319,5 +319,15 @@ namespace NBi.Testing.Unit.Xml
             Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Definition, Has.Count.EqualTo(3));
             Assert.That(((OrderedXml)ts.Tests[16].Constraints[0]).Definition[0], Is.EqualTo("Leopold"));
         }
+
+        [Test]
+        public void Deserialize_SampleFile_ContainsNotAttributeCorrectlyRead()
+        {
+            // Create an instance of the XmlSerializer specifying type and namespace.
+            TestSuiteXml ts = DeserializeSample();
+
+            Assert.That(ts.Tests[17].Constraints[0], Is.TypeOf<ContainsXml>());
+            Assert.That(((ContainsXml)ts.Tests[17].Constraints[0]).Not, Is.EqualTo(true));
+        }
     }
 }
