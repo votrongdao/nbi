@@ -71,6 +71,7 @@
     <Compile Include="..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
     <Compile Include="ConnectionStringReader.cs" />
@@ -95,6 +96,11 @@
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbReaderTest.cs" />
     <Compile Include="Unit\Core\Analysis\Metadata\MetadataExcelOleDbWriterTest.cs" />
     <Compile Include="Unit\Core\ConnectionExceptionTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\AssemblyManagerTest.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\StaticKlass.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
+    <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
+    <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
@@ -126,6 +132,7 @@
     <Compile Include="Unit\Xml\Constraints\ExistsXmlTest.cs" />
     <Compile Include="Unit\Xml\DescriptionXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\HierarchyXmlTest.cs" />
+    <Compile Include="Unit\Xml\Items\AssemblyXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\MeasureXmlTest.cs" />
     <Compile Include="Unit\Xml\Constraints\OrderedXmlTest.cs" />
     <Compile Include="Unit\Xml\IgnoreXmlTest.cs" />
@@ -134,6 +141,7 @@
     <Compile Include="Unit\Xml\Systems\MembersXmlTest.cs" />
     <Compile Include="Unit\Xml\Systems\StructureXmlTest.cs" />
     <Compile Include="Unit\Xml\Settings\SettingsXmlTest.cs" />
+    <Compile Include="Unit\Xml\Constraints\EqualToXmlTest.cs" />
     <Compile Include="Unit\Xml\Items\QueryXmlTest.cs" />
     <Compile Include="Unit\Xml\TestXmlTest.cs" />
     <Compile Include="Unit\NUnit\ConstraintFactoryTest.cs" />
@@ -168,73 +176,26 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\HierarchyXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\ContainsXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Unit\Xml\Resources\QueryXmlTestSuite.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\AssemblyXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainsTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\DescriptionXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\TestXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefaultAssert.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ExistsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\QueryFileEuro.mdx" />
+    <EmbeddedResource Include="Unit\Xml\Resources\MeasureXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\IgnoreXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\OrderedXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\ContainsXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\CountXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\MembersXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\StructureXmlTestSuite.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithReference.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithoutDefault.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\SettingsXmlWithDefault.xml" />
+    <EmbeddedResource Include="Unit\Xml\Resources\EqualToTestSuite.xml" />
     <EmbeddedResource Include="Unit\Core\ResultSet\Resources\ResultDataSet.xml" />
-    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Unit\Xml\Resources\XmlManagerInvalidSyntax.xml" />
     <EmbeddedResource Include="Unit\Xml\Resources\SelectAllProducts.sql" />
     <EmbeddedResource Include="Unit\Xml\Resources\QueryFile.sql" />
     <EmbeddedResource Include="Acceptance\Resources\QueryEqualToResultSet.xml">
@@ -265,6 +226,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\Exists.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\AssemblyEqualToResultSet.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\Resources\ContainsStructure.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <Content Include="NBi.Testing.sql" />
