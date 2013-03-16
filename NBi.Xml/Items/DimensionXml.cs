@@ -10,12 +10,6 @@ namespace NBi.Xml.Items
         [XmlAttribute("perspective")]
         public string Perspective { get; set; }
 
-        public override object Instantiate()
-        {
-            //TODO Here?
-            return null;
-        }
-
         [XmlIgnore]
         protected virtual string Path { get { return string.Format("[{0}]", Caption); } }
 
@@ -36,6 +30,8 @@ namespace NBi.Xml.Items
             var values = new List<string>();
             if (!string.IsNullOrEmpty(Perspective))
                 values.Add(string.Format("Perspective '{0}'", Perspective));
+            values.Add(string.Format("Dimension '{0}'", Caption));
+            values.Add("Dimensions");
             return values;
         }
     }
