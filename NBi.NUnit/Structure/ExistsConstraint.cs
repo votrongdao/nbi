@@ -1,40 +1,20 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NBi.Core;
 using NBi.Core.Analysis.Metadata;
-using NBi.Core.Analysis.Metadata.Adomd;
-using NBi.Core.Analysis.Request;
 using NUnit.Framework.Constraints;
-using NUnitCtr = NUnit.Framework.Constraints;
 
 namespace NBi.NUnit.Structure
 {
-    public class ExistsConstraint : NUnitCtr.Constraint
+    public class ExistsConstraint : AbstractStructureConstraint
     {
-
-        protected IComparer comparer;
-        protected MetadataDiscoveryRequest request;
-        protected AdomdDiscoveryCommandFactory commandFactory;
-
-        /// <summary>
-        /// Engine dedicated to MetadataExtractor acquisition
-        /// </summary>
-        protected internal AdomdDiscoveryCommandFactory CommandFactory
+        protected string Expected
         {
-            set
+            get
             {
-                if (value == null)
-                    throw new ArgumentNullException();
-                commandFactory = value;
+                return Request.GetAllFilters().Single(f => f.Target == Request.Target).Value;
             }
-        }
-
-        protected AdomdDiscoveryCommandFactory GetFactory()
-        {
-            if (commandFactory == null)
-                commandFactory = new AdomdDiscoveryCommandFactory();
-            return commandFactory;
         }
 
         /// <summary>
@@ -43,60 +23,46 @@ namespace NBi.NUnit.Structure
         public ExistsConstraint()
             : base()
         {
-
         }
 
         #region Modifiers
         /// <summary>
         /// Flag the constraint to ignore case and return self.
         /// </summary>
-        public ExistsConstraint IgnoreCase
+        public new ExistsConstraint IgnoreCase
         {
             get
             {
+                base.IgnoreCase();
                 return this;
             }
         }
 
         #endregion
 
-        public override bool Matches(object actual)
-        {
-            if (actual is MetadataDiscoveryRequest)
-                return Process((MetadataDiscoveryRequest)actual);
-            else if (actual is IEnumerable<IField>)
-            {
-                var res = doMatch((IEnumerable<IField>)actual);
-                return res;
-            }
-            else
-                throw new ArgumentException();
-        }
-
-        public bool doMatch(IEnumerable<IField> actual)
-        {
-            return (actual.Count() > 0);
-        }
-
-
-        protected bool Process(MetadataDiscoveryRequest actual)
-        {
-            request = actual;
-            var factory = GetFactory();
-            var command = factory.BuildExact(actual);
-            IEnumerable<IField> structures = command.Execute();
-            return this.Matches(structures);
-        }
-
         protected void Investigate()
         {
-            var factory = GetFactory();
-            var command = factory.BuildExternal(request);
+            var factory = CommandFactory;
+            var command = factory.BuildExternal(Request);
             IEnumerable<IField> structures = command.Execute();
 
             if (structures.Count() > 0)
             {
                 this.actual = structures;
+            }
+        }
+
+        protected override CollectionItemsEqualConstraint InternalConstraint
+        {
+            get
+            {
+                if (base.InternalConstraint==null)
+                    base.InternalConstraint = new CollectionContainsConstraint(StringComparerHelper.Build(Expected));
+                return base.InternalConstraint;
+            }
+            set
+            {
+                base.InternalConstraint = value;
             }
         }
 
@@ -106,13 +72,13 @@ namespace NBi.NUnit.Structure
         /// <param name="writer"></param>
         public override void WriteDescriptionTo(MessageWriter writer)
         {
-            if (request != null)
+            if (Request != null)
             {
                 var description = new DescriptionStructureHelper();
-                var filterExpression = description.GetFilterExpression(request.GetAllFilters().Where(f => f.Target != request.Target));
+                var filterExpression = description.GetFilterExpression(Request.GetAllFilters().Where(f => f.Target != Request.Target));
                 var notExpression = description.GetNotExpression(true);
-                var targetExpression = description.GetTargetExpression(request.Target);
-                var captionExpression = request.GetAllFilters().Single(f => f.Target==request.Target).Value;
+                var targetExpression = description.GetTargetExpression(Request.Target);
+                var captionExpression = Expected;
 
                 writer.WritePredicate(string.Format("find {0} {1} named '{2}' {3}"
                             , notExpression
@@ -124,20 +90,28 @@ namespace NBi.NUnit.Structure
 
         public override void WriteActualValueTo(MessageWriter writer)
         {
-            Investigate();
-            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
-                base.WriteActualValueTo(writer);
-            else
-                writer.WriteActualValue(new NothingFoundMessage());
-        }
-
-        private class NothingFoundMessage
-        {
-            public override string ToString()
+            //IF actual is not empty it means we've an issue with Casing or a space at the end
+            if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() == 1)
             {
-                return "nothing found";
+                if (((IEnumerable<IField>)actual).ToArray()[0].Caption.ToLowerInvariant() == Expected.ToLowerInvariant())
+                    writer.WriteActualValue(string.Format("< <{0}> > (case not matching)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+                else if (((IEnumerable<IField>)actual).ToArray()[0].Caption.EndsWith(" "))
+                    writer.WriteActualValue(string.Format("< <{0}> > (with ending space(s))", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+                else
+                    writer.WriteActualValue(string.Format("< <{0}> > (small difference)", ((IEnumerable<IField>)actual).ToArray()[0].Caption));
+
+            }
+            else
+            {
+                Investigate();
+                if (actual is IEnumerable<IField> && ((IEnumerable<IField>)actual).Count() > 0)
+                    base.WriteActualValueTo(writer);
+                else
+                    writer.WriteActualValue(new WriterHelper.NothingFoundMessage());
             }
         }
+
+        
         
     }
 }

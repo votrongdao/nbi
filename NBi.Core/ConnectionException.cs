@@ -5,35 +5,44 @@ using Microsoft.AnalysisServices.AdomdClient;
 
 namespace NBi.Core
 {
-    public class ConnectionException : System.Exception
+    /// <summary>
+    /// Class handling all the constructor to build a ConnectionException. This exception is specifically managed by the Runtime to display correct and effective information about the issue.
+    /// </summary>
+    public class ConnectionException : NBiException
     {
-        public ConnectionException(ArgumentException ex)
-            : base(
-                ex.Message,
-                ex.InnerException
-                ) { }
-        
-        public ConnectionException(AdomdErrorResponseException ex)
-            : base(
-                ex.Message,
-                ex.InnerException
+        public ConnectionException(ArgumentException ex, string connectionString)
+            : this(
+                (Exception)ex,
+                connectionString
                 ) { }
 
-        public ConnectionException(AdomdConnectionException ex)
-            : base(
-                ex.Message,
-                ex.InnerException
+        public ConnectionException(AdomdErrorResponseException ex, string connectionString)
+            : this(
+                (Exception)ex,
+                connectionString
                 ) { }
 
-        public ConnectionException(OleDbException ex)
-            : base(
-                ex.Message,
-                ex.InnerException
+        public ConnectionException(AdomdConnectionException ex, string connectionString)
+            : this(
+                (Exception)ex,
+                connectionString
                 ) { }
 
-        public ConnectionException(SqlException ex)
+        public ConnectionException(OleDbException ex, string connectionString)
+            : this(
+                (Exception)ex,
+                connectionString
+                ) { }
+
+        public ConnectionException(SqlException ex, string connectionString)
+            : this(
+                (Exception)ex,
+                connectionString
+                ) { }
+
+        protected ConnectionException(Exception ex, string connectionString)
             : base(
-                ex.Message,
+                ex.Message + string.Format("\r\nThe connection string used was '{0}'", connectionString),
                 ex.InnerException
                 ) { }
     }

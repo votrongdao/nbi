@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using NBi.Xml.Constraints;
-using NBi.Xml.Constraints.EqualTo;
 using NBi.Xml.Items;
+using NBi.Xml.Items.ResultSet;
 
 namespace NBi.Xml
 {
@@ -77,8 +77,8 @@ namespace NBi.Xml
 
                     var sut = new Systems.ExecutionXml();
                     test.Systems.Add(sut);
-                    sut.Item.File = query;
-                    sut.Item.ConnectionString = actual.ConnectionString;
+                    ((QueryXml)sut.Item).File = query;
+                    ((QueryXml)sut.Item).ConnectionString = actual.ConnectionString;
                 }
             }
             return testSuite;
@@ -108,8 +108,8 @@ namespace NBi.Xml
 
                     var sut = new Systems.ExecutionXml();
                     test.Systems.Add(sut);
-                    sut.Item.File = query;
-                    sut.Item.ConnectionString = actual.ConnectionString;
+                    ((QueryXml)sut.Item).File = query;
+                    ((QueryXml)sut.Item).ConnectionString = actual.ConnectionString;
                 }
             }
             return testSuite;

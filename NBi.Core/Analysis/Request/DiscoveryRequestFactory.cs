@@ -22,7 +22,7 @@ namespace NBi.Core.Analysis.Request
                     !target.Equals(DiscoveryTarget.Perspectives) ? (Validation)new PerspectiveNotNull(perspective) : new NoValidation(),
                     new MeasureGroupWithoutDimension(measuregroup, dimension),
                     new MeasureWithoutDimension(measure, dimension),
-                    !string.IsNullOrEmpty(displayFolder) ? (Validation)new MeasureNotNull(dimension) : new NoValidation(),
+                    !string.IsNullOrEmpty(displayFolder) && string.IsNullOrEmpty(dimension) ? (Validation)new MeasureNotNull(measure) : new NoValidation(),
                     !string.IsNullOrEmpty(hierarchy) ? (Validation)new DimensionNotNull(dimension) : new NoValidation(),
                     !string.IsNullOrEmpty(level) ? (Validation)new HierarchyNotNull(hierarchy) : new NoValidation()
                 }
@@ -66,6 +66,29 @@ namespace NBi.Core.Analysis.Request
             disco.Function = string.IsNullOrEmpty(memberCaption) ? "members" : "children";
             disco.MemberCaption = memberCaption;
             
+            return disco;
+        }
+
+        public virtual MetadataDiscoveryRequest BuildLinkedTo(string connectionString, DiscoveryTarget target, string perspective, string measuregroup, string dimension)
+        {
+            //Validations
+            Validate(
+                new List<Validation>()
+                {
+                    new ConnectionStringNotEmpty(connectionString),
+                    new PerspectiveNotNull(perspective),
+                    new AtLeastOneNotNull(dimension, measuregroup)
+                }
+            );
+
+            //If validation of parameters is successfull then we build the object
+            var disco = new MetadataDiscoveryRequest();
+            disco.ConnectionString = connectionString;
+            disco.Target = target;
+            if (!string.IsNullOrEmpty(perspective)) disco.SpecifyFilter(new CaptionFilter(perspective, DiscoveryTarget.Perspectives));
+            if (!string.IsNullOrEmpty(measuregroup)) disco.SpecifyFilter(new CaptionFilter(measuregroup, DiscoveryTarget.MeasureGroups));
+            if (!string.IsNullOrEmpty(dimension)) disco.SpecifyFilter(new CaptionFilter(dimension, DiscoveryTarget.Dimensions));
+
             return disco;
         }
    

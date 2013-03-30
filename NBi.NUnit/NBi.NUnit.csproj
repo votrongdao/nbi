@@ -45,10 +45,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\..\Program Files\Microsoft.NET\ADOMD.NET\100\Microsoft.AnalysisServices.AdomdClient.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
-    </Reference>
+	<Reference Include="nunit.framework">
+		<SpecificVersion>False</SpecificVersion>
+		<HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
+	</Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,15 +58,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\GlobalAssemblyInfo.cs">
-      <Link>Properties\GlobalAssemblyInfo.cs</Link>
+    <Compile Include="..\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Builder\AbstractMembersBuilder.cs" />
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
+    <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
+    <Compile Include="Builder\MembersEquivalentToBuilder.cs" />
+    <Compile Include="Builder\StructureEquivalentToBuilder.cs" />
+    <Compile Include="Builder\StructureSubsetOfBuilder.cs" />
+    <Compile Include="Builder\StructureLinkedToBuilder.cs" />
     <Compile Include="Builder\StructureExistsBuilder.cs" />
-    <Compile Include="Builder\StructureContainsBuilder.cs" />
+    <Compile Include="Builder\StructureContainBuilder.cs" />
     <Compile Include="Builder\MembersContainsBuilder.cs" />
     <Compile Include="Builder\MembersOrderedBuilder.cs" />
     <Compile Include="Builder\ExecutionSyntacticallyCorrectBuilder.cs" />
@@ -74,20 +79,29 @@
     <Compile Include="Builder\ITestCaseBuilder.cs" />
     <Compile Include="Builder\MembersCountBuilder.cs" />
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
+    <Compile Include="Member\AbstractMembersConstraint.cs" />
+    <Compile Include="Member\EquivalentToConstraint.cs" />
+    <Compile Include="Member\SubsetOfConstraint.cs" />
+    <Compile Include="Structure\AbstractCollectionConstraint.cs" />
+    <Compile Include="Structure\AbstractStructureConstraint.cs" />
+    <Compile Include="Structure\EquivalentToConstraint.cs" />
+    <Compile Include="Structure\ContainConstraint.cs" />
+    <Compile Include="Structure\SubsetOfConstraint.cs" />
+    <Compile Include="Structure\LinkedToConstraint.cs" />
     <Compile Include="Structure\DescriptionStructureHelper.cs" />
     <Compile Include="TestCase.cs" />
     <Compile Include="TestCaseFactory.cs" />
     <Compile Include="FluentInterface\Has.cs" />
-    <Compile Include="Member\ContainsConstraint.cs" />
+    <Compile Include="Member\ContainConstraint.cs" />
     <Compile Include="Member\CountConstraint.cs" />
     <Compile Include="Query\EqualToConstraint.cs" />
     <Compile Include="Member\OrderedConstraint.cs" />
-    <Compile Include="Structure\ContainsConstraint.cs" />
     <Compile Include="FluentInterface\Is.cs" />
     <Compile Include="Structure\ExistsConstraint.cs" />
     <Compile Include="Query\SyntacticallyCorrectConstraint.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\ProjectAssemblyInfo.cs" />
     <Compile Include="Query\FasterThanConstraint.cs" />
+    <Compile Include="WriterHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NBi.Core\NBi.Core.csproj">

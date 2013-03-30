@@ -10,13 +10,6 @@ namespace NBi.Xml.Items
         [XmlAttribute("perspective")]
         public string Perspective { get; set; }
 
-        public override object Instantiate()
-        {
-            //TODO here?
-            return null;
-        }
-
-
         [XmlIgnore]
         public override string TypeName
         {
@@ -35,6 +28,8 @@ namespace NBi.Xml.Items
             var values = new List<string>();
             if (!string.IsNullOrEmpty(Perspective))
                 values.Add(string.Format("Perspective '{0}'", Perspective));
+            values.Add(string.Format("Measure group '{0}'", Caption));
+            values.Add("Measure groups");
             return values;
         }
     }

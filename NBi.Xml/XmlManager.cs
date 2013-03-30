@@ -1,21 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Collections.Specialized;
 
 namespace NBi.Xml
 {
     public class XmlManager
     {
         public virtual TestSuiteXml TestSuite {get; protected set;}
+        public virtual NameValueCollection ConnectionStrings { get; set; }
         protected bool isValid; 
 
         public XmlManager() 
         {
             docXml = new XmlDocument();
+            ConnectionStrings = new NameValueCollection();
         }
 
         public virtual void Load(string filename)
@@ -28,6 +30,11 @@ namespace NBi.Xml
             {
                 Read(reader);
             }
+
+            //Apply Settings hacks
+            var basePath = System.IO.Path.GetDirectoryName(filename) + Path.DirectorySeparatorChar;
+            TestSuite.Settings.BasePath = basePath;
+            TestSuite.Settings.GetValuesFromConfig(ConnectionStrings);
 
             docXml.Load(filename);
             ReassignXml();
@@ -56,6 +63,7 @@ namespace NBi.Xml
                 foreach (var ctr in test.Constraints)
                 {
                     ctr.Default = TestSuite.Settings.GetDefault(Settings.SettingsXml.DefaultScope.Assert);
+                    ctr.Settings = TestSuite.Settings;
                 }
             }
 
@@ -83,7 +91,7 @@ namespace NBi.Xml
             // Create an instance of the XmlSerializer specifying type and namespace.
             var serializer = new XmlSerializer(typeof(TestSuiteXml));
 
-            using (var writer = new StreamWriter(filename, false, Encoding.UTF8))
+            using (var writer = new StreamWriter(filename))
             {
                 // Use the Serialize method to store the object's state.
                 serializer.Serialize(writer, testSuite);

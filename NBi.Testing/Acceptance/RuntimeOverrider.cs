@@ -18,15 +18,23 @@ namespace NBi.Testing.Acceptance
         public class TestSuiteOverrider : TestSuite
         {
             
-            private readonly string filename;
-            public TestSuiteOverrider(string filename)
+            public TestSuiteOverrider(string filename) : base()
             {
-                this.filename = filename;
+                TestSuiteFinder = new TestSuiteFinderOverrider(filename);
             }
             
-            protected override string GetTestSuiteFileDefinition()
+            internal class TestSuiteFinderOverrider : TestSuiteFinder
             {
-                return @"Acceptance\Resources\" + filename;
+                private readonly string filename;
+                public TestSuiteFinderOverrider(string filename)
+                {
+                    this.filename = filename;
+                }
+                
+                protected internal override string Find()
+                {
+                    return @"Acceptance\Resources\" + filename;
+                }
             }
 
             [Ignore]
@@ -38,16 +46,23 @@ namespace NBi.Testing.Acceptance
         
         //By Acceptance Test Suite (file) create a Test Case
         [Test]
+        [TestCase("AssemblyEqualToResultSet.xml")]
         [TestCase("QueryEqualToCsv.xml")]
         [TestCase("QueryEqualToQuery.xml")]
         [TestCase("QueryEqualToResultSet.xml")]
         [TestCase("QueryEqualToResultSetWithNull.xml")]
         [TestCase("Ordered.xml")]
         [TestCase("Count.xml")]
-        [TestCase("Contains.xml")]
+        [TestCase("Contain.xml")]
+        [TestCase("ContainStructure.xml")]
         [TestCase("fasterThan.xml")]
         [TestCase("SyntacticallyCorrect.xml")]
         [TestCase("Exists.xml")]
+        [TestCase("LinkedTo.xml")]
+        [TestCase("SubsetOfStructure.xml")]
+        [TestCase("EquivalentToStructure.xml")]
+        [TestCase("SubsetOfMembers.xml")]
+        [TestCase("EquivalentToMembers.xml")]
         public void RunTestSuite(string filename)
         {
             var t = new TestSuiteOverrider(filename);

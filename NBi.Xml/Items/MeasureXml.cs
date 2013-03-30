@@ -40,12 +40,6 @@ namespace NBi.Xml.Items
             Specification = new SpecificationMeasure();
         }
 
-        public override object Instantiate()
-        {
-            //TODO here?
-            return null;
-        }
-
         [XmlIgnore()]
         public SpecificationMeasure Specification { get; protected set; }
 
@@ -54,7 +48,6 @@ namespace NBi.Xml.Items
             public bool IsDisplayFolderSpecified { get; internal set; }
             public bool IsMeasureGroupSpecified { get; internal set; }
         }
-
 
         [XmlIgnore]
         public override string TypeName
@@ -72,9 +65,12 @@ namespace NBi.Xml.Items
 
         internal override ICollection<string> GetAutoCategories()
         {
-            var values = base.GetAutoCategories();
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(Perspective))
+                values.Add(string.Format("Perspective '{0}'", Perspective));
             if (!string.IsNullOrEmpty(MeasureGroup))
-                values.Add(string.Format("MeasureGroup '{0}'", MeasureGroup));
+                values.Add(string.Format("Measure group '{0}'", MeasureGroup));
+            values.Add("Measures");
             return values;
         }
     }

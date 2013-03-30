@@ -56,9 +56,9 @@ namespace NBi.Testing.Unit.Xml.Systems
                 Item = new QueryXml() { InlineQuery = "SELECT * FROM Product" }
             };
 
-            Assert.That(systemUnderTest.Item.GetQuery(), Is.EqualTo("SELECT * FROM Product"));
-            Assert.That(systemUnderTest.Item.InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
-            Assert.That(systemUnderTest.Item.File, Is.Null);
+            Assert.That(((QueryXml)systemUnderTest.Item).GetQuery(), Is.EqualTo("SELECT * FROM Product"));
+            Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
+            Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Null);
         }
 
         [Test]
@@ -70,12 +70,15 @@ namespace NBi.Testing.Unit.Xml.Systems
 
             var systemUnderTest = new ExecutionXml()
             {
-                Item = new QueryXml() { File = filename }
+                Item = new QueryXml() { 
+                    File = filename, 
+                    Settings = new NBi.Xml.Settings.SettingsXml() { BasePath=DiskOnFile.GetDirectoryPath() }
+                }
             };
 
             // Check the properties of the object.
-            Assert.That(systemUnderTest.Item.File, Is.Not.Null.And.Not.Empty);
-            Assert.That(systemUnderTest.Item.InlineQuery, Is.Null);
+            Assert.That(((QueryXml)systemUnderTest.Item).File, Is.Not.Null.And.Not.Empty);
+            Assert.That(((QueryXml)systemUnderTest.Item).InlineQuery, Is.Null);
             Assert.That(systemUnderTest.Item.GetQuery(), Is.Not.Null.And.Not.Empty.And.ContainsSubstring("SELECT"));
             
         }
@@ -85,7 +88,7 @@ namespace NBi.Testing.Unit.Xml.Systems
         public void GetQuery_FilenameSpecified_RetrieveContentWithEuroSymbol()
         {
             //create a text file on disk
-            var filename = DiskOnFile.CreatePhysicalFile("QueryFile€.mdx", "NBi.Testing.Unit.Xml.Resources.QueryFile€.mdx");
+            var filename = DiskOnFile.CreatePhysicalFile("QueryFile€.mdx", "NBi.Testing.Unit.Xml.Resources.QueryFileEuro.mdx");
 
             //Instantiate a Test Case and specify to find the sql in the file created above
             var testCase = new ExecutionXml()

@@ -6,25 +6,24 @@ using NBi.Xml.Settings;
 namespace NBi.Xml.Systems
 {
     public class ExecutionXml : AbstractSystemUnderTestXml
-    {
-        public override DefaultXml Default
-        {
-            get { return base.Default; }
-            set
-            {
-                base.Default = value;
-                if (Item != null)
-                    Item.Default = value;
-            }
-        }
-        
+    {       
         public virtual bool IsQuery()
         {
             return true;
         }
         
-        [XmlElement(Type = typeof(QueryXml), ElementName = "query")]
-        public virtual QueryXml Item { get; set; }
+        [XmlElement(Type = typeof(QueryXml), ElementName = "query"),
+        XmlElement(Type = typeof(AssemblyXml), ElementName = "assembly"),
+        ]
+        public virtual QueryableXml Item { get; set; }
+
+        public override BaseItem BaseItem
+        {
+            get
+            {
+                return (BaseItem) Item;
+            }
+        }
 
         internal override Dictionary<string, string> GetRegexMatch()
         {

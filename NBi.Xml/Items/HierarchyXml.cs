@@ -7,13 +7,34 @@ namespace NBi.Xml.Items
 {
     public class HierarchyXml : DimensionXml
     {
+        public HierarchyXml()
+        {
+            Specification = new SpecificationHierarchy();
+        }
+        
         [XmlAttribute("dimension")]
         public string Dimension { get; set; }
 
-        public override object Instantiate()
+        protected string displayFolder;
+        [XmlAttribute("display-folder")]
+        public string DisplayFolder
         {
-            //TODO here?
-            return null;
+            get
+            { return displayFolder; }
+
+            set
+            {
+                displayFolder = value;
+                Specification.IsDisplayFolderSpecified = true;
+            }
+        }
+
+        [XmlIgnore()]
+        public SpecificationHierarchy Specification { get; protected set; }
+
+        public class SpecificationHierarchy
+        {
+            public bool IsDisplayFolderSpecified { get; internal set; }
         }
 
         [XmlIgnore]
@@ -36,9 +57,13 @@ namespace NBi.Xml.Items
 
         internal override ICollection<string> GetAutoCategories()
         {
-            var values = base.GetAutoCategories();
+            var values = new List<string>();
+            if (!string.IsNullOrEmpty(Perspective))
+                values.Add(string.Format("Perspective '{0}'", Perspective));
             if (!string.IsNullOrEmpty(Dimension))
                 values.Add(string.Format("Dimension '{0}'", Dimension));
+            values.Add(string.Format("Hierarchy '{0}'", Caption));
+            values.Add("Hierarchies");
             return values;
         }
     }

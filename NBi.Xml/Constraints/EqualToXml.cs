@@ -4,8 +4,8 @@ using System.Linq;
 using System.Xml.Serialization;
 using NBi.Core;
 using NBi.Core.ResultSet;
-using NBi.Xml.Constraints.EqualTo;
 using NBi.Xml.Items;
+using NBi.Xml.Items.ResultSet;
 using NBi.Xml.Settings;
 
 namespace NBi.Xml.Constraints
@@ -29,6 +29,19 @@ namespace NBi.Xml.Constraints
 
         [XmlElement("query")]
         public QueryXml Query { get; set; }
+
+        public override BaseItem BaseItem
+        {
+            get
+            {
+                if (Query != null)
+                    return Query;
+                if (ResultSet != null)
+                    return ResultSet;
+
+                return null;
+            }
+        }
 
         [XmlAttribute("keys")]
         public ResultSetComparisonSettings.KeysChoice KeysDef { get; set; }
@@ -84,7 +97,7 @@ namespace NBi.Xml.Constraints
             if (Query==null)
                 return null;
 
-            var conn = ConnectionFactory.Get(Query.GetConnectionString());
+            var conn = new ConnectionFactory().Get(Query.GetConnectionString());
             var cmd = conn.CreateCommand();
             cmd.CommandText = Query.GetQuery();
 

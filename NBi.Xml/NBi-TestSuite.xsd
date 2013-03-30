@@ -80,7 +80,6 @@
 										</xs:element>
 									</xs:sequence>
 									<xs:attribute name="author" type="xs:string" use="optional" />
-									<xs:attribute name="created" type="xs:dateTime" use="optional" />
 								</xs:complexType>
 							</xs:element>
 							<xs:element name="category" minOccurs="0" maxOccurs="unbounded">
@@ -96,9 +95,10 @@
 									<xs:choice>
 										<xs:element name="execution">
 											<xs:complexType>
-												<xs:sequence>
+												<xs:choice>
 													<xs:element name="query" type ="query-type"/>
-												</xs:sequence>
+													<xs:element name="assembly" type ="assembly-type"/>
+												</xs:choice>
 											</xs:complexType>		
 										</xs:element>
 										<xs:element name="members">
@@ -119,6 +119,12 @@
 													<xs:element name="dimension" type="dimension-type"/>
 													<xs:element name="hierarchy" type="hierarchy-type"/>
 													<xs:element name="level" type="level-type"/>
+													<xs:element name="perspectives" type="perspectives-type"/>
+													<xs:element name="measure-groups" type="measure-groups-type"/>
+													<xs:element name="measures" type="measures-type"/>
+													<xs:element name="dimensions" type="dimensions-type"/>
+													<xs:element name="hierarchies" type="hierarchies-type"/>
+													<xs:element name="levels" type="levels-type"/>
 												</xs:choice>
 											</xs:complexType>
 										</xs:element>
@@ -151,6 +157,7 @@
 																			<xs:restriction base="xs:string">
 																				<xs:enumeration value="numeric"/>
 																				<xs:enumeration value="text"/>
+																				<!--<xs:enumeration value="dateTime"/>-->
 																			</xs:restriction>
 																		</xs:simpleType>
 																	</xs:attribute>
@@ -214,7 +221,13 @@
 										</xs:element>
 										<xs:element name="fasterThan">
 											<xs:complexType>
-												<xs:attribute name="max-time-milliSeconds" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="max-time-milliSeconds" use="required" >
+													<xs:simpleType>
+														<xs:restriction base="xs:positiveInteger">
+															<xs:maxInclusive value="2147483647"/>
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
 												<xs:attribute name="clean-cache" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
@@ -229,15 +242,50 @@
 												</xs:simpleContent>
 											</xs:complexType>
 										</xs:element>
-										<xs:element name="contains">
+										<xs:element name="contain">
 											<xs:complexType>
-												<xs:simpleContent>
-													<xs:extension base="xs:string">
-														<xs:attribute name="caption" type="xs:string" use="required" />
-														<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
-														<xs:attribute name="not" type="xs:boolean" use="optional" />
-													</xs:extension>
-												</xs:simpleContent>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="caption" type="xs:string" use="optional" />
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="equivalentTo">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="subsetOf">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="item" minOccurs="0" maxOccurs="unbounded">
+														<xs:complexType>
+															<xs:simpleContent>
+																<xs:extension base="xs:string"/>
+															</xs:simpleContent>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="ignore-case" type="xs:boolean" use="optional" />
+												<xs:attribute name="not" type="xs:boolean" use="optional" />
 											</xs:complexType>
 										</xs:element>
 										<xs:element name="exists">
@@ -280,6 +328,22 @@
 												</xs:attribute>
 											</xs:complexType>
 										</xs:element>
+										<xs:element name="linkedTo">
+											<xs:complexType>
+												<xs:choice>
+													<xs:element name="dimension" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="measure-group" minOccurs="0" maxOccurs="1">
+														<xs:complexType>
+															<xs:attribute name="caption" type="xs:string" use="required"/>
+														</xs:complexType>
+													</xs:element>
+												</xs:choice>
+											</xs:complexType>
+										</xs:element>
 									</xs:choice>							
 								</xs:complexType>
 							</xs:element>
@@ -294,6 +358,22 @@
 			<xs:attribute name="name" type="xs:string" use="optional" />
 		</xs:complexType>
 	</xs:element>
+	<xs:complexType name="assembly-type">
+		<xs:sequence>
+			<xs:element name="parameter" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="name" type="xs:string" use="required" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="path" type="xs:string" use="required" />
+		<xs:attribute name="class" type="xs:string" use="required" />
+		<xs:attribute name="method" type="xs:string" use="required" />
+	</xs:complexType>
 	<xs:complexType name="query-type" mixed="true">
 		<xs:attribute name="name" type="xs:string" use="optional" />
 		<xs:attribute name="file" type="xs:string" use="optional" />
@@ -330,12 +410,55 @@
 		<xs:complexContent>
 			<xs:extension base="dimension-type">
 				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="level-type">
 		<xs:complexContent>
-			<xs:extension base="hierarchy-type">
+			<xs:extension base="dimension-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="hierarchy" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="perspectives-type">
+		<xs:attribute name="connectionString" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="measure-groups-type">
+		<xs:complexContent>
+			<xs:extension base="perspectives-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="measures-type">
+		<xs:complexContent>
+			<xs:extension base="measure-groups-type">
+				<xs:attribute name="measure-group" type="xs:string" use="optional" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dimensions-type">
+		<xs:complexContent>
+			<xs:extension base="perspectives-type">
+				<xs:attribute name="perspective" type="xs:string" use="required" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="hierarchies-type">
+		<xs:complexContent>
+			<xs:extension base="dimensions-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
+				<xs:attribute name="display-folder" type="xs:string" use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="levels-type">
+		<xs:complexContent>
+			<xs:extension base="dimensions-type">
+				<xs:attribute name="dimension" type="xs:string" use="required" />
 				<xs:attribute name="hierarchy" type="xs:string" use="required" />
 			</xs:extension>
 		</xs:complexContent>

@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace NBi.Xml.Items
 {
-    abstract public class AbstractItem
+    abstract public class AbstractItem : BaseItem
     {
         [XmlAttribute("caption")]
         public string Caption { get; set; }
@@ -14,8 +14,6 @@ namespace NBi.Xml.Items
         public string ConnectionString { get; set; }
 
         public abstract string TypeName {get;}
-
-        public abstract object Instantiate();
 
         internal virtual Dictionary<string, string> GetRegexMatch()
         {
