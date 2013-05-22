@@ -3,7 +3,7 @@
 	<test name="'Reseller Order Count' by year before 2006" uid="0001">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1033">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					WITH MEMBER 
 						[Measures].[Reseller Order Count Divided by 7] 
 					AS 
@@ -32,7 +32,7 @@
 	<test name="'Reseller Order Count' by year before 2006" uid="0001" ignore="false">
 		<system-under-test>
 			<execution>
-				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049">
+				<query name="MDX Except" connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					select
 						[Measures].[Internet Order Count] on 0,
 						[Date].[Date].Children  on 1
@@ -43,7 +43,7 @@
 		</system-under-test>
 		<assert>
 			<equalTo>
-				<query connectionString="Provider=MSOLAP.4;Data Source=(local);Initial Catalog='Adventure Works DW 2008';localeidentifier=1049">
+				<query connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012;Initial Catalog='Adventure Works DW 2012';localeidentifier=1049">
 					select
 						[Measures].[Internet Order Count] on 0,
 						[Date].[Date].Children  on 1

@@ -41,11 +41,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualEqualToExpectation_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
+                        , new List<IFilter>());
 
             var expected = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var ctr = new SubsetOfConstraint(expected);
@@ -58,11 +57,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualEqualToExpectationCaseNonMatching_Success()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
+                        , new List<IFilter>());
 
             var expected = new string[] { "Adventure Works".ToUpper(), "Channel Sales".ToLower(), "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var ctr = new SubsetOfConstraint(expected);
@@ -76,11 +74,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualMoreThanExpectation_Failure()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
+                        , new List<IFilter>());
 
             var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var expected = new List<string>();
@@ -96,11 +93,10 @@ namespace NBi.Testing.Integration.NUnit.Structure
         [Test, Category("Olap cube")]
         public void Matches_ActualSubsetOfExpectation_Sucess()
         {
-            var discovery = new DiscoveryRequestFactory().Build(
+            var discovery = new DiscoveryRequestFactory().BuildDirect(
                         ConnectionStringReader.GetAdomd()
                         , DiscoveryTarget.Perspectives
-                        , null, null, null, null, null, null, null
-                        );
+                        , new List<IFilter>());
 
             var expectedStrings = new string[] { "Adventure Works", "Channel Sales", "Direct Sales", "Finance", "Mined Customers", "Sales Summary", "Sales Targets" };
             var expected = new List<string>();
