@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.OleDb;
+using System.Diagnostics;
 
 namespace NBi.Core.Query
 {
@@ -113,11 +114,11 @@ namespace NBi.Core.Query
 
         public virtual DataSet Execute()
         {
-            int i;
+            float i;
             return Execute(out i);
         }
 
-        public virtual DataSet Execute(out int elapsedSec)
+        public virtual DataSet Execute(out float elapsedSec)
         {
             // Open the connection
             using (var connection = new OleDbConnection())
@@ -133,6 +134,7 @@ namespace NBi.Core.Query
                 catch (OleDbException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 long ticksBefore = DateTime.Now.Ticks;
                 var adapter = new OleDbDataAdapter(command.CommandText, connection);
@@ -145,7 +147,8 @@ namespace NBi.Core.Query
                 long ticksAfter = DateTime.Now.Ticks;
 
                 // setting query runtime
-                elapsedSec = Convert.ToInt32((ticksAfter - ticksBefore) / 1000 / 1000);
+                elapsedSec = (ticksAfter - ticksBefore) / 1000f / 1000f;
+                Trace.WriteLineIf(NBiTraceSwitch.TraceInfo, string.Format("Time needed to execute query: {0:F3} s", elapsedSec));
 
                 return ds;
             }
