@@ -1,6 +1,7 @@
-! Test the availability of an element in the cube's structure
+! Test the availability of an element in the cube or tabular structure
 !! System under test
 The sample here under explains how to check the availability of a measure but it's also possible to check the existence of a perspective, dimension, hierarchy, level or measure-group following the same way.
+You can also apply this kind of tests for *SSAS Tabular* and *SSAS Multidimensional* models. For Tabular developments you can use tests all the elements (dimension, measures, ...) of the multidimensional model but also for a Table or a Column.
 In order to let you check that a measure is available through a perspective, you need to stipulate where you'll be looking for. This is done by creating a tag named "structure" under the node "system-under-test".
 {code:xml}
 <test>
@@ -9,7 +10,10 @@ In order to let you check that a measure is available through a perspective, you
     </system-under-test>
 </test>
 {code:xml}
-In this xml node, named "structure", you'll need to specify for which element you'll check availability. For this you'll need to specify the type of element (perspective, dimension, hierrachy, levle, measure-group or measure), its caption and also the parents. In the sample bellow, we're checking if a measure 'MyMeasure' exists in a measure-group 'MyMeasureGroup' through the perspective 'MyPerspective'
+In this xml node, named "structure", you'll need to specify for which element you'll check availability. For this you'll need to specify the type of element (perspective, dimension, hierarchy, level, measure-group or measure), its caption and also the parents. 
+For 'tabular' models, you can also check on a 'table' or 'column' element.
+
+In the sample bellow, we're checking if a measure 'MyMeasure' exists in a measure-group 'MyMeasureGroup' through the perspective 'MyPerspective'
 {code:xml}
 <structure>
     <measure caption="MyMeasure" measure-group="MyMeasureGroup" perspective="MyPerspective"/>
@@ -167,5 +171,41 @@ For a measure-group, you'll need to specify the caption and the perspective
     <assert>
         <exists />
     </assert>
+</test>
+{code:xml}
+
+!!! Table *(Tabular model) (v1.2)*
+For a table of a tabular model, you'll need to specify the caption and the perspective
+{code:xml}
+<test name="In perspective 'Internet Operation', the table 'Customer' exists">
+	<category>Tabular</category>
+	<system-under-test>
+		<structure>
+			<table caption="Customer" perspective="Internet Operation"
+				connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+			/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists />
+	</assert>
+</test>
+{code:xml}
+
+!!! Column *(Tabular model) (v1.2)*
+For a column of a tabular model, you'll need to specify the caption, the table and the perspective
+{code:xml}
+<test name="In perspective 'Internet Operation', table 'Customer', the column 'Birth Date' exists">
+	<category>Tabular</category>
+	<system-under-test>
+		<structure>
+			<column caption="Birth Date" table="Customer" perspective="Internet Operation"
+				connectionString="Provider=MSOLAP.4;Data Source=(local)\SQL2012TABULAR;Initial Catalog='AdventureWorks Tabular Model SQL 2012';localeidentifier=1033"		  
+			/>
+		</structure>
+	</system-under-test>
+	<assert>
+		<exists />
+	</assert>
 </test>
 {code:xml}

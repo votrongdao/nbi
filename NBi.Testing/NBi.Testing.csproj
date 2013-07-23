@@ -76,6 +76,7 @@
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
     <Compile Include="ConnectionStringReader.cs" />
     <Compile Include="DiskOnFile.cs" />
+    <Compile Include="Integration\Core\Analysis\Member\MembersCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\AdomdDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\ColumnDiscoveryCommandTest.cs" />
     <Compile Include="Integration\Core\Analysis\Metadata\Adomd\TableDiscoveryCommandTest.cs" />
@@ -106,6 +107,11 @@
     <Compile Include="Unit\Core\Assemblies\Resource\Enumeration.cs" />
     <Compile Include="Unit\Core\Assemblies\Resource\Klass.cs" />
     <Compile Include="Unit\Core\Assemblies\TypeConverterTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\BaseComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\BooleanComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\DateTimeComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\TextComparerTest.cs" />
+    <Compile Include="Unit\Core\ResultSet\Comparer\NumericComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\DataRowBasedResultSetComparerTest.cs" />
     <Compile Include="Unit\Core\ResultSet\LineFormatterTest.cs" />
     <Compile Include="Unit\Core\ResultSet\ResultSetComparisonSettingsTest.cs" />
@@ -117,7 +123,7 @@
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
-    <Compile Include="Unit\NUnit\Builder\QueryEqualsToBuilderTest.cs" />
+    <Compile Include="Unit\NUnit\Builder\ExecutionEqualsToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureExistsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersContainsBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersOrderedBuilderTest.cs" />
@@ -166,7 +172,6 @@
     <Compile Include="Unit\Xml\XmlManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Integration\Core\Analysis\Member\" />
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
