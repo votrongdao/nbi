@@ -32,7 +32,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
                         presenter.SelectedTests = testsList.SelectedItems.Cast<Test>();
                     };
 
-                useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnValidation);
+                useGrouping.DataBindings.Add("Checked", presenter, "UseGrouping", false, DataSourceUpdateMode.OnPropertyChanged);
 
                 progressBarTest.DataBindings.Add("Value", presenter, "Progress", false, DataSourceUpdateMode.OnPropertyChanged);
 
