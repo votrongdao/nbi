@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NBi.Core.Query
 {
@@ -156,9 +157,10 @@ namespace NBi.Core.Query
                 catch (SqlException ex)
                 { throw new ConnectionException(ex, connectionString); }
 
+                Trace.WriteLineIf(NBiTraceSwitch.TraceVerbose, command.CommandText);
                 // capture time before execution
                 DateTime timeBefore = DateTime.Now;
-                var adapter = new SqlDataAdapter(command.CommandText, connection);
+                var adapter = new SqlDataAdapter(command);
                 var ds = new DataSet();
                 
                 adapter.SelectCommand.CommandTimeout = 0;

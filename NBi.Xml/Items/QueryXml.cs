@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,37 @@ namespace NBi.Xml.Items
 
         [XmlText]
         public string InlineQuery { get; set; }
+
+        [XmlElement("parameter")]
+        public List<QueryParameterXml> Parameters { get; set; }
+
+        [XmlElement("variable")]
+        public List<QueryTemplateVariableXml> Variables { get; set; }
+
+        public QueryXml()
+        {
+            Parameters = new List<QueryParameterXml>();
+        }
+
+        public List<QueryParameterXml> GetParameters()
+        {
+            var list = Parameters;
+            foreach (var param in Default.Parameters)
+                if (!Parameters.Exists(p => p.Name == param.Name))
+                    list.Add(param);
+
+            return list;
+        }
+
+        public List<QueryTemplateVariableXml> GetVariables()
+        {
+            var list = Variables;
+            foreach (var variable in Default.Variables)
+                if (!Variables.Exists(p => p.Name == variable.Name))
+                    list.Add(variable);
+
+            return list;
+        }
 
         public override string GetQuery()
         {
