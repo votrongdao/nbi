@@ -65,6 +65,7 @@
     <Compile Include="Builder\AbstractTestCaseBuilder.cs" />
     <Compile Include="Builder\AbstractExecutionBuilder.cs" />
     <Compile Include="Builder\AbstractStructureBuilder.cs" />
+    <Compile Include="Builder\MembersMatchPatternBuilder.cs" />
     <Compile Include="Builder\MetadataDiscoveryRequestBuilder.cs" />
     <Compile Include="Builder\MembersSubsetOfBuilder.cs" />
     <Compile Include="Builder\MembersEquivalentToBuilder.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Builder\ExecutionEqualToBuilder.cs" />
     <Compile Include="Member\AbstractMembersConstraint.cs" />
     <Compile Include="Member\AbstractMembersCollectionConstraint.cs" />
+    <Compile Include="Member\MatchPatternConstraint.cs" />
     <Compile Include="Member\EquivalentToConstraint.cs" />
     <Compile Include="Member\SubsetOfConstraint.cs" />
     <Compile Include="Structure\AbstractCollectionConstraint.cs" />
