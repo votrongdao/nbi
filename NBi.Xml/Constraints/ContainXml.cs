@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using NBi.Xml.Items;
 using NBi.Xml.Settings;
+using NBi.Xml.Systems;
 
 namespace NBi.Xml.Constraints
 {
@@ -28,5 +29,8 @@ namespace NBi.Xml.Constraints
                     throw new InvalidOperationException();
             }  
         }
+
+        [XmlElement("members")]
+        public MembersXml Members { get; set; }
     }
 }
