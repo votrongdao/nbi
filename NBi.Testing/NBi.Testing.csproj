@@ -55,6 +55,9 @@
     <Reference Include="nunit.core.interfaces">
       <HintPath>..\packages\NUnit.Runners.2.6.2\tools\lib\nunit.core.interfaces.dll</HintPath>
     </Reference>
+    <Reference Include="Sprache">
+      <HintPath>..\packages\Sprache.1.10.0.35\lib\net40\Sprache.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -71,6 +74,7 @@
     <Compile Include="..\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Acceptance\GenbiL\GenbiLTest.cs" />
     <Compile Include="Acceptance\Resources\AssemblyClass.cs" />
     <Compile Include="Acceptance\RuntimeOverrider.cs" />
     <Compile Include="Acceptance\TestSuiteRunner.cs" />
@@ -135,6 +139,11 @@
     <Compile Include="Unit\NUnit\Builder\ExecutionMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersMatchPatternBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\MembersEquivalentToBuilderTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\CaseParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\RecipeParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\SuiteParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\SettingParserTest.cs" />
+    <Compile Include="Unit\GenbiL\Parser\TemplateParserTest.cs" />
     <Compile Include="Unit\NUnit\Builder\StructureEquivalentToBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QuerySyntacticallyCorrectBuilderTest.cs" />
     <Compile Include="Unit\NUnit\Builder\QueryFasterThanBuilderTest.cs" />
@@ -199,12 +208,16 @@
   <ItemGroup>
     <Folder Include="Integration\Core\Analysis\Query\" />
     <Folder Include="Integration\NUnit\Builder\" />
+    <Folder Include="Unit\Core\Query\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Acceptance\Resources\ResellerOrderCountByYearBefore2006.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Acceptance\Resources\ResultSetMatchPattern.nbits">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\dimension.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <None Include="ConnectionString.config">
@@ -324,6 +337,10 @@
       <Project>{3f730647-fe31-4907-8a6e-a0c4a0c970ea}</Project>
       <Name>NBi.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NBi.genbiL\NBi.GenbiL.csproj">
+      <Project>{dfb8aa0e-a144-49e3-976b-ad03bf2a55e7}</Project>
+      <Name>NBi.GenbiL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NBi.NUnit.Runtime\NBi.NUnit.Runtime.csproj">
       <Project>{5aa137a9-c158-4a4f-b07d-3df787618c24}</Project>
       <Name>NBi.NUnit.Runtime</Name>
@@ -344,6 +361,11 @@
       <Project>{3a9822b3-cce4-441b-9c3e-d52817a994ca}</Project>
       <Name>NBi.Xml</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Acceptance\GenbiL\Resources\Simple-TestSuiteBuild.genbil">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Unit\Xml\Resources\FormatXmlTestSuite.xml" />
