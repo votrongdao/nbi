@@ -58,6 +58,8 @@
             this.toolTipRemove = new System.Windows.Forms.ToolTip(this.components);
             this.toolTipRename = new System.Windows.Forms.ToolTip(this.components);
             this.mainToolStrip = new System.Windows.Forms.ToolStrip();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.macroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openTestCasesToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.openTemplateToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -69,7 +71,7 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.openTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.saveAsTestSuiteToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.playMacroToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -186,6 +188,7 @@
             this.testsToolStripMenuItem,
             this.testSuiteToolStripMenuItem,
             this.configProjectFilesToolStripMenuItem,
+            this.macroToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
@@ -378,6 +381,10 @@
             // 
             // openTemplateToolStripButton
             // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // 
             this.openTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.openTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_open;
             this.openTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -394,10 +401,36 @@
             this.saveAsTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveAsTemplateToolStripButton.Text = "Save template as ...";
             // 
-            // toolStripSeparator4
+            // macroToolStripMenuItem
+            // 
+            this.macroToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.playMacroToolStripMenuItem});
+            this.macroToolStripMenuItem.Name = "macroToolStripMenuItem";
+            this.macroToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.macroToolStripMenuItem.Text = "Macro";
+            // 
+            // openTestCasesToolStripButton
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
             this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
+            // 
+            // openTemplateToolStripButton
+            // 
+            this.openTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.openTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_open;
+            this.openTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.openTemplateToolStripButton.Name = "openTemplateToolStripButton";
+            this.openTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.openTemplateToolStripButton.Text = "Open template";
+            // 
+            // saveAsTemplateToolStripButton
+            // 
+            this.saveAsTemplateToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveAsTemplateToolStripButton.Image = global::NBi.UI.Genbi.Properties.Resources.script_save;
+            this.saveAsTemplateToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveAsTemplateToolStripButton.Name = "saveAsTemplateToolStripButton";
+            this.saveAsTemplateToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.saveAsTemplateToolStripButton.Text = "Save as template";
             // 
             // generateTestsToolStripButton
             // 
@@ -449,10 +482,12 @@
             this.saveAsTestSuiteToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.saveAsTestSuiteToolStripButton.Text = "Save test suite as ...";
             // 
-            // toolStripSeparator2
+            // playMacroToolStripMenuItem
             // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
+            this.playMacroToolStripMenuItem.Image = global::NBi.UI.Genbi.Properties.Resources.control_play;
+            this.playMacroToolStripMenuItem.Name = "playMacroToolStripMenuItem";
+            this.playMacroToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.playMacroToolStripMenuItem.Text = "Play ...";
             // 
             // TestSuiteView
             // 
@@ -529,5 +564,7 @@
         private System.Windows.Forms.ToolStripButton openTemplateToolStripButton;
         private System.Windows.Forms.ToolStripButton saveAsTemplateToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem macroToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem playMacroToolStripMenuItem;
     }
 }

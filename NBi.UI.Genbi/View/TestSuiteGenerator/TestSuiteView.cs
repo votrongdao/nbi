@@ -21,6 +21,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
         private SettingsPresenter SettingsPresenter { get; set; }
         private TestListPresenter TestListPresenter { get; set; }
         private TestSuitePresenter TestSuitePresenter { get; set; }
+        private MacroPresenter MacroPresenter { get; set; }
 
 
         public TestSuiteView()
@@ -31,6 +32,7 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             SettingsPresenter = new SettingsPresenter(new SettingsManager(), State.Settings);
             TestListPresenter = new TestListPresenter(new TestListManager(), State.Tests, State.TestCases, State.Variables, State.Template);
             TestSuitePresenter = new TestSuitePresenter(new TestSuiteManager(), State.Tests, State.Settings);
+            MacroPresenter = new MacroPresenter();
 
             InitializeComponent();
             DeclareBindings();            
@@ -91,6 +93,8 @@ namespace NBi.UI.Genbi.View.TestSuiteGenerator
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.OpenTestSuiteCommand, openTestSuiteToolStripButton);
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripMenuItem);
             CommandManager.Instance.Bindings.Add(this.TestSuitePresenter.SaveAsTestSuiteCommand, saveAsTestSuiteToolStripButton);
+
+            CommandManager.Instance.Bindings.Add(this.MacroPresenter.PlayMacroCommand, playMacroToolStripMenuItem);
         }
 
         private void UnbindPresenter()
