@@ -22,6 +22,8 @@ namespace NBi.NUnit.Runtime
     public class TestSuite
     {
         public bool EnableAutoCategories { get; set; }
+        public bool AllowDtdProcessing { get; set; }
+        public string SettingsFilename { get; set; }
 
         internal XmlManager TestSuiteManager { get; private set; }
         internal TestSuiteFinder TestSuiteFinder { get; set; }
@@ -170,7 +172,8 @@ namespace NBi.NUnit.Runtime
                 TestSuiteManager.ConnectionStrings = ConnectionStringsFinder.Find();
 
             //Build the Test suite
-            TestSuiteManager.Load(TestSuiteFinder.Find());
+            var testSuiteFilename = TestSuiteFinder.Find();
+            TestSuiteManager.Load(testSuiteFilename, settingsFilename, AllowDtdProcessing);
 
             return BuildTestCases();
         }
@@ -225,6 +228,8 @@ namespace NBi.NUnit.Runtime
         public void ApplyConfig(NBiSection config)
         {
             EnableAutoCategories = config.EnableAutoCategories;
+            AllowDtdProcessing = config.AllowDtdProcessing;
+            SettingsFilename = config.SettingsFilename;
         }
 
 
