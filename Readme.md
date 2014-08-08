@@ -54,3 +54,8 @@ In order to be able to build the software on different machines, the database an
 This OSS project is tracked by [Ohloh](http://www.ohloh.net/p/NBi)
 
 [![Project Stats](https://www.ohloh.net/p/nbi/widgets/project_thin_badge.gif)](https://www.ohloh.net/p/YOUR_PROJECT)
+
+## Support ##
+If you want to support the project, feel free to make donations via GitTip.
+
+[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.1.0/dist/gittip.png)](https://www.gittip.com/Seddryck/)
